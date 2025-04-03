@@ -23,9 +23,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/demo/emp/**").permitAll()
                         .requestMatchers("/api/v1/demo/admin/**").hasRole("client_admin")
                         .requestMatchers("/api/v1/demo/user/**").hasRole("client_user")
-                        .anyRequest().authenticated());
+
+
+                        .anyRequest().permitAll());
         http
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new JwtAuthConverter())))
         ;

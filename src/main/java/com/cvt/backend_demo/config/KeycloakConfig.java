@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeycloakConfig {
 
-//    @Value("${keycloak.auth.server-url}")
-//    private String keycloakServerUrl;
+    @Value("${keycloak.auth.server.url}")
+    private String keycloakServerUrl;
 
     @Value("${keycloak.realm}")
     private String keycloakRealm;

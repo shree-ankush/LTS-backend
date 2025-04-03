@@ -22,33 +22,33 @@ public class CsvUserImporter {
     @Autowired
     private UserRepository userRepository;
 
-    @Bean
-    CommandLineRunner runCsvImport(CsvReaderService csvReaderService, KeycloakUserService userService) {
-        return args -> {
-            String filePath = "src/main/resources/users.csv"; // ✅ Ensure this file exists
-
-            try {
-                // ✅ Read CSV file
-//                List<UserDTO> users1 = csvReaderService.readCsv(filePath);
-                List<UserDTO> users = csvReaderService.readCsv(filePath);
-                 System.out.println("📄 CSV File Read Successfully. Processing Users...");
-
-                for (UserDTO user : users) {
-                    String userId = userService.createUser(user);
-                    if (userId != null) {
-//                        userService.sendVerificationEmail(userId);
-                        System.out.println("✅ User Created: " + user.getEmail());
-                    } else {
-                        System.out.println("❌ Failed to Create User: " + user.getEmail());
-                    }
-                }
-                System.out.println("🎉 CSV User Import Completed!");
-
-            } catch (IOException e) {
-                System.err.println("❌ Error Reading CSV File: " + e.getMessage());
-            }
-        };
-    }
+//    @Bean
+//    CommandLineRunner runCsvImport(CsvReaderService csvReaderService, KeycloakUserService userService) {
+//        return args -> {
+//            String filePath = "src/main/resources/users.csv"; // ✅ Ensure this file exists
+//
+//            try {
+//                // ✅ Read CSV file
+////                List<UserDTO> users1 = csvReaderService.readCsv(filePath);
+//                List<UserDTO> users = csvReaderService.readCsv(filePath);
+//                 System.out.println("📄 CSV File Read Successfully. Processing Users...");
+//
+//                for (UserDTO user : users) {
+//                    String userId = userService.createUser(user);
+//                    if (userId != null) {
+////                        userService.sendVerificationEmail(userId);
+//                        System.out.println("✅ User Created: " + user.getEmail());
+//                    } else {
+//                        System.out.println("❌ Failed to Create User: " + user.getEmail());
+//                    }
+//                }
+//                System.out.println("🎉 CSV User Import Completed!");
+//
+//            } catch (IOException e) {
+//                System.err.println("❌ Error Reading CSV File: " + e.getMessage());
+//            }
+//        };
+//    }
 
     public void importUsersFromCsv(String filePath) {
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
@@ -65,7 +65,14 @@ public class CsvUserImporter {
 
                 // Check if user already exists before saving
                 if (!userRepository.existsByUsername(username) && !userRepository.existsByEmail(email)) {
-                    User user = new User(username, email, firstName, lastName, organization, password);
+//                    User user = new User(username, email, firstName, lastName, organization, password);
+                    User user = User.builder().username(username)
+                            .email(email)
+                            .firstName(firstName)
+                            .lastName(lastName)
+                            .organization(organization)
+                            .password(password)
+                            .build();
                     userRepository.save(user);
                     System.out.println("✅ User Created: " + username);
                 } else {
