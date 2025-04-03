@@ -21,4 +21,6 @@ public class UserController {
         return "hello keycloak world from spring boot - ADMIN." ;
     }
 
+
+
 }

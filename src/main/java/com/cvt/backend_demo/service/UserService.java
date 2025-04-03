@@ -9,12 +9,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private KeycloakUserService keycloakService;
+
+    public void syncUsersToKeycloak() {
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            if (isValidUser(user)) {
+                keycloakService.createUserInKeycloak(user);
+            }
+        }
+    }
+
+    private boolean isValidUser(User user) {
+        return user.getUsername() != null && !user.getUsername().isEmpty() &&
+                user.getEmail() != null && !user.getEmail().isEmpty() &&
+                user.getFirstName() != null && !user.getFirstName().isEmpty() &&
+                user.getLastName() != null && !user.getLastName().isEmpty() &&
+                user.getOrganization() != null && !user.getOrganization().isEmpty() &&
+                user.getPassword() != null && !user.getPassword().isEmpty();
+    }
+
 
     public ResponseEntity registerEmployee(UserDTO dto) {
 
