@@ -20,7 +20,4 @@ public class UserController {
     public String hello2(){
         return "hello keycloak world from spring boot - ADMIN." ;
     }
-
-
-
 }

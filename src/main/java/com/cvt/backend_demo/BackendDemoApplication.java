@@ -20,8 +20,4 @@ public class BackendDemoApplication  implements CommandLineRunner {
 		String filePath = "src/main/resources/users.csv"; // Update this path
 		csvUserImporter.importUsersFromCsv(filePath);
 	}
-
-
-
-
 }

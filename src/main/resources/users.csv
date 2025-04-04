@@ -1,4 +1,8 @@
 username,email,firstName,lastName,organization,password
-ram,ram@test.com,Ram,Kumar,TechCorp,ram@123
-saurabh,saurabh@test.com,Saurabh,Singh,TechCorp,sau@123
-ajay,ajay@test.com,Ajay,Kumar,TechCorp,aja@123
+ram,ram@test.com,Ram,Kumar,TechCorp,Ram@1234
+saurabh,saurabh@test.com,Saurabh,Singh,TechCorp,Sau@123
+ajay,ajay@test.com,Ajay,Kumar,TechCorp,Aja@1234
+emptyname,emptyname@test.com,,Verma,TechCorp,EmptY@123
+bademail,bademail.com,Rina,Sharma,TechCorp,Rina@1234
+vikas,vikas@test.com,Vikas,Patel,TechCorp,Vikas@1234
+noorg,noorg@test.com,Anjali,Gupta,,Anjali@1234
