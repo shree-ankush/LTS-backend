@@ -68,7 +68,9 @@ public class UserService {
                 .username(dto.getUsername())
                 .build();
 
+        System.out.println("abcd " + keycloakService.createUser(dto));
         return ResponseEntity.ok(userRepository.save(user1));
+
     }
 
 

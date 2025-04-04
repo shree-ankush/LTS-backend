@@ -23,34 +23,6 @@ public class CsvUserImporter {
     @Autowired
     private UserRepository userRepository;
 
-//    @Bean
-//    CommandLineRunner runCsvImport(CsvReaderService csvReaderService, KeycloakUserService userService) {
-//        return args -> {
-//            String filePath = "src/main/resources/users.csv"; // ✅ Ensure this file exists
-//
-//            try {
-//                // ✅ Read CSV file
-////                List<UserDTO> users1 = csvReaderService.readCsv(filePath);
-//                List<UserDTO> users = csvReaderService.readCsv(filePath);
-//                 System.out.println("📄 CSV File Read Successfully. Processing Users...");
-//
-//                for (UserDTO user : users) {
-//                    String userId = userService.createUserInKeycloak(user);
-//                    if (userId != null) {
-////                        userService.sendVerificationEmail(userId);
-//                        System.out.println("✅ User Created: " + user.getEmail());
-//                    } else {
-//                        System.out.println("❌ Failed to Create User: " + user.getEmail());
-//                    }
-//                }
-//                System.out.println("🎉 CSV User Import Completed!");
-//
-//            } catch (IOException e) {
-//                System.err.println("❌ Error Reading CSV File: " + e.getMessage());
-//            }
-//        };
-//    }
-
     public void importUsersFromCsv(String filePath) {
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             List<String[]> rows = reader.readAll();

@@ -1,7 +1,9 @@
 package com.cvt.backend_demo.service;
 
 
+import com.cvt.backend_demo.dto.UserDTO;
 import com.cvt.backend_demo.entity.User;
+import jakarta.ws.rs.core.Response;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -39,44 +41,44 @@ public class KeycloakUserService {
 
 
 
-//    public String createUser(UserDTO userDTO) {
-//        try {
-//            // ✅ Create UserRepresentation
-//            UserRepresentation user = new UserRepresentation();
-//            user.setUsername(userDTO.getUsername());
-//            user.setEmail(userDTO.getEmail());
-//            user.setFirstName(userDTO.getFirstName());
-//            user.setLastName(userDTO.getLastName());
-//            user.setEnabled(true);
-//            user.setEmailVerified(false);
-//
-//            System.out.println(" " + user.getEmail());
-//
-//            // ✅ Get Realm Resource
-//            RealmResource realmResource = keycloak.realm(realm);
-//            Response response = realmResource.users().create(user);
-//
-//            // ✅ Check if user was created successfully
-//            if (response.getStatus() == 201) {
-//                String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
-//                System.out.println("✅ User Created: " + userDTO.getEmail());
-//
-//                // ✅ Set Password
-//                setPassword(userId, userDTO.getPassword());
-//                // ✅ Assign Client Role to User (Add this line)
-////                assignClientRole(userId, "leave-portal", "client_user");
-//                return userId;
-//            } else {
-//                // ✅ Print exact error from Keycloak
-//                String errorMessage = response.readEntity(String.class);
-//                System.err.println("❌ User creation failed: " + response.getStatus() + " - " + errorMessage);
-//                throw new RuntimeException("User creation failed: " + errorMessage);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace(); // ✅ Print the full error stack
-//            throw new RuntimeException("Exception while creating user", e);
-//        }
-//    }
+    public String createUser(UserDTO userDTO) {
+        try {
+            // ✅ Create UserRepresentation
+            UserRepresentation user = new UserRepresentation();
+            user.setUsername(userDTO.getUsername());
+            user.setEmail(userDTO.getEmail());
+            user.setFirstName(userDTO.getFirstName());
+            user.setLastName(userDTO.getLastName());
+            user.setEnabled(true);
+            user.setEmailVerified(false);
+
+            System.out.println(" " + user.getEmail());
+
+            // ✅ Get Realm Resource
+            RealmResource realmResource = keycloak.realm(realm);
+            Response response = realmResource.users().create(user);
+
+            // ✅ Check if user was created successfully
+            if (response.getStatus() == 201) {
+                String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+                System.out.println("✅ User Created: " + userDTO.getEmail());
+
+                // ✅ Set Password
+                setPassword(userId, userDTO.getPassword());
+                // ✅ Assign Client Role to User (Add this line)
+//                assignClientRole(userId, "leave-portal", "client_user");
+                return userId;
+            } else {
+                // ✅ Print exact error from Keycloak
+                String errorMessage = response.readEntity(String.class);
+                System.err.println("❌ User creation failed: " + response.getStatus() + " - " + errorMessage);
+                throw new RuntimeException("User creation failed: " + errorMessage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // ✅ Print the full error stack
+            throw new RuntimeException("Exception while creating user", e);
+        }
+    }
 
 
     public void createUserInKeycloak(User userDTO) {
