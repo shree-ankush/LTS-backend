@@ -4,6 +4,7 @@ package com.cvt.backend_demo.service;
 import com.cvt.backend_demo.dto.UserDTO;
 import com.cvt.backend_demo.entity.User;
 import com.cvt.backend_demo.repository.UserRepository;
+import com.cvt.backend_demo.util.UserValidator;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class CsvUserImporter {
 //                 System.out.println("📄 CSV File Read Successfully. Processing Users...");
 //
 //                for (UserDTO user : users) {
-//                    String userId = userService.createUser(user);
+//                    String userId = userService.createUserInKeycloak(user);
 //                    if (userId != null) {
 ////                        userService.sendVerificationEmail(userId);
 //                        System.out.println("✅ User Created: " + user.getEmail());
@@ -64,20 +65,30 @@ public class CsvUserImporter {
                 String password = row[5];
 
                 // Check if user already exists before saving
+                User user = null;
                 if (!userRepository.existsByUsername(username) && !userRepository.existsByEmail(email)) {
 //                    User user = new User(username, email, firstName, lastName, organization, password);
-                    User user = User.builder().username(username)
+                    user = User.builder().username(username)
                             .email(email)
                             .firstName(firstName)
                             .lastName(lastName)
                             .organization(organization)
                             .password(password)
                             .build();
+
+                    if (!UserValidator.isValidUser(username, email, firstName, lastName, organization, password)) {
+                        System.out.println("❌ Invalid data for user: " + username);
+                        continue;
+                    }
+
                     userRepository.save(user);
                     System.out.println("✅ User Created: " + username);
                 } else {
                     System.out.println("⚠️ User already exists: " + username);
                 }
+
+                // Add after extracting fields from each row
+
             }
 
         } catch (IOException | CsvException e) {

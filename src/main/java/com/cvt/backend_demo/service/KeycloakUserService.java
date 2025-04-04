@@ -148,6 +148,9 @@ public class KeycloakUserService {
         System.out.println("✅ Assigned Client Role 'user' to User: " + userId);
     }
 
+
+
+
 //
 //    public void sendVerificationEmail(String userId) {
 //        keycloak.realm(realm).users().get(userId).sendVerifyEmail();
